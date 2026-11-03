@@ -3,7 +3,7 @@
 ## Fases
 - [x] Fase 0 — Reconhecimento (29 imagens inspecionadas; mapeamento abaixo)
 - [x] Fase 1 — Fundação: Next 16.4.4 + Tailwind 4 + shadcn (base-nova) + motion + lucide; tokens, fontes, logo, ícones/OG via ImageResponse, robots/sitemap, Velaris/ShinyButton/Dock adaptados; preços pesquisados (verify).
-- [ ] Fase 2 — Shell de abas
+- [x] Fase 2 — Shell de abas (estado único, dock, trilho, teclado/roda/swipe/hash, obturador, cursor, foco, aria-live, noscript)
 - [ ] Fase 3 — Ignição + Salão
 - [ ] Fase 4 — Coleção
 - [ ] Fase 5 — Spike Control
