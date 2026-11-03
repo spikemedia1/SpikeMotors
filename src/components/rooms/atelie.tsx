@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Check } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Odometer } from "@/components/motion/odometer";
 import { Reveal, SplitReveal } from "@/components/motion/split-reveal";
 import { RoomFrame } from "@/components/showroom/room-frame";
@@ -19,7 +19,7 @@ const priceLabel = (p: { priceBRL: number; priceFrom?: boolean; monthly?: boolea
 function ProgramColumn({ p, selected, onSelect }: { p: Program; selected: boolean; onSelect: () => void }) {
   const black = p.id === "black-label";
   return (
-    <li className={cn("relative flex", black && "shiny-panel")}>
+    <div className={cn("relative flex", black && "shiny-panel")}>
       <button
         type="button"
         role="radio"
@@ -67,7 +67,7 @@ function ProgramColumn({ p, selected, onSelect }: { p: Program; selected: boolea
           {selected ? "Selecionado" : "Selecionar"}
         </span>
       </button>
-    </li>
+    </div>
   );
 }
 
@@ -83,10 +83,7 @@ export function Atelie() {
   const monthly = chosen.filter((a) => a.monthly);
   const oneOff = chosen.filter((a) => !a.monthly);
 
-  const total = useMemo(
-    () => (car.priceBRL ?? 0) + (program?.priceBRL ?? 0) + oneOff.reduce((s, a) => s + a.priceBRL, 0),
-    [car.priceBRL, program, oneOff],
-  );
+  const total = (car.priceBRL ?? 0) + (program?.priceBRL ?? 0) + oneOff.reduce((s, a) => s + a.priceBRL, 0);
 
   const toggle = (id: string) => setPicked((v) => (v.includes(id) ? v.filter((x) => x !== id) : [...v, id]));
 
@@ -131,9 +128,25 @@ export function Atelie() {
           </Reveal>
         </div>
 
+        {/* Carro (celular; no desktop fica na barra do configurador) */}
+        <label className="flex flex-col gap-1 md:hidden">
+          <span className="t-mono text-[9px] text-text-muted">Carro</span>
+          <select
+            value={car.slug}
+            onChange={(e) => setSelectedCar(e.target.value)}
+            className="min-h-11 border-b border-line-strong bg-transparent font-mono text-[12px] tracking-[0.12em] text-text uppercase outline-none focus-visible:border-accent"
+          >
+            {cars.map((c) => (
+              <option key={c.slug} value={c.slug} className="bg-surface text-text">
+                {carName(c)}
+              </option>
+            ))}
+          </select>
+        </label>
+
         {/* Programas */}
         <Reveal i={4}>
-          <ul
+          <div
             role="radiogroup"
             aria-label="Programas do Ateliê"
             className="grid grid-cols-1 divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0"
@@ -141,7 +154,7 @@ export function Atelie() {
             {programs.map((p) => (
               <ProgramColumn key={p.id} p={p} selected={programId === p.id} onSelect={() => setProgramId(programId === p.id ? null : p.id)} />
             ))}
-          </ul>
+          </div>
         </Reveal>
 
         {/* Avulsos */}
@@ -191,8 +204,8 @@ export function Atelie() {
 
         {/* Configurador com preço vivo */}
         <div className="sticky bottom-[64px] z-20 -mx-[var(--gutter)] mt-2 border-t border-line-strong bg-[rgba(12,12,12,0.94)] px-[var(--gutter)] py-4 backdrop-blur-md sm:bottom-[92px] lg:mx-0 lg:border lg:px-6">
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-            <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="hidden flex-wrap items-end gap-x-6 gap-y-3 md:flex">
               <label className="flex flex-col gap-1">
                 <span className="t-mono text-[9px] text-text-muted">Carro</span>
                 <select
@@ -207,20 +220,20 @@ export function Atelie() {
                   ))}
                 </select>
               </label>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 lg:hidden 2xl:flex">
                 <span className="t-mono text-[9px] text-text-muted">Programa · avulsos</span>
                 <span className="font-mono text-[12px] tracking-[0.12em] text-text uppercase">
                   {program ? program.name : "Nenhum"} · {chosen.length} {chosen.length === 1 ? "item" : "itens"}
                 </span>
               </div>
             </div>
-            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 lg:flex-nowrap lg:items-center">
               <div>
                 <span className="t-mono text-[9px] text-text-muted">Total estimado</span>
-                <div className="mt-1 text-[clamp(24px,2.4vw,34px)] text-accent" aria-live="polite">
+                <div className="mt-1 text-[clamp(22px,2.2vw,32px)] text-accent" aria-live="polite">
                   <Odometer value={formatBRL(total)} />
                 </div>
-                <p className="mt-1 font-mono text-[9px] tracking-[0.12em] text-text-muted">
+                <p className="mt-1 max-w-[40ch] font-mono text-[9px] tracking-[0.12em] text-text-muted">
                   {atelierCopy.paymentNote.join(" · ")}
                   {!car.priceBRL ? " · Carro sob consulta, não incluído" : ""}
                   {monthly.length ? ` · + ${formatBRL(monthly.reduce((s, a) => s + a.priceBRL, 0))}/mês` : ""}

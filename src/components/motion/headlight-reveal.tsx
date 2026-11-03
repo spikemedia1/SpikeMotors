@@ -45,6 +45,8 @@ export function HeadlightReveal({
   const [done, setDone] = useState(false);
   const played = useRef(false);
 
+  const shown = done || (reduced && trigger);
+
   const paint = (v: number) => {
     const mask = `linear-gradient(${angle}deg, #000 ${v - 22}%, rgba(0,0,0,0.6) ${v - 8}%, transparent ${v + 4}%)`;
     if (litRef.current) {
@@ -62,7 +64,6 @@ export function HeadlightReveal({
     played.current = true;
     if (reduced) {
       p.set(200);
-      setDone(true);
       return;
     }
     const controls = animate(p, 130, { duration, ease: [0.45, 0, 0.2, 1], onComplete: () => setDone(true) });
@@ -86,7 +87,7 @@ export function HeadlightReveal({
         ref={litRef}
         className="absolute inset-0"
         style={
-          done
+          shown
             ? undefined
             : {
                 maskImage: "linear-gradient(105deg, #000 -52%, transparent -26%)",
@@ -97,8 +98,8 @@ export function HeadlightReveal({
         <Image src={src} alt={alt} fill sizes={sizes} priority={priority}
         loading={priority ? undefined : eager ? "eager" : undefined} className={cn("object-cover", imgClassName)} />
       </div>
-      {!done ? <div ref={bandRef} aria-hidden className="pointer-events-none absolute inset-0 mix-blend-screen" /> : null}
-      {specular && done && !reduced ? (
+      {!shown ? <div ref={bandRef} aria-hidden className="pointer-events-none absolute inset-0 mix-blend-screen" /> : null}
+      {specular && shown && !reduced ? (
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden mix-blend-screen">
           <div
             className="absolute inset-y-0 left-0 w-1/3"

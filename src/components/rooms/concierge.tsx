@@ -69,7 +69,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className="t-mono text-[10px] text-text-muted">
         {label}
-        {optional ? <span className="ml-2 normal-case opacity-70">(opcional)</span> : null}
+        {optional ? <span className="ml-2 normal-case">(opcional)</span> : null}
       </label>
       {children}
       <p id={`${id}-err`} className="min-h-4 text-[12px] text-[#E0907F]" aria-live="polite">
@@ -80,7 +80,7 @@ function Field({
 }
 
 const inputCls =
-  "min-h-11 w-full border-0 border-b border-line-strong bg-transparent px-0 py-2 text-[16px] text-text outline-none transition-colors placeholder:text-text-muted/60 focus:border-accent focus-visible:outline-none aria-[invalid=true]:border-[#E0907F]";
+  "min-h-11 w-full border-0 border-b border-line-strong bg-transparent px-0 py-2 text-[16px] text-text outline-none transition-colors placeholder:text-text-muted focus:border-accent focus-visible:outline-none aria-[invalid=true]:border-[#E0907F]";
 
 export function Concierge() {
   const { current, active } = useRoom();
@@ -311,7 +311,7 @@ export function Concierge() {
                         />
                         <span>
                           {conciergeCopy.consent}{" "}
-                          <span className="text-text-muted/80">[Política de privacidade a definir]</span>
+                          <span className="text-text-muted">[Política de privacidade a definir]</span>
                         </span>
                       </label>
                       <p id={`${id("consent")}-err`} className="min-h-4 text-[12px] text-[#E0907F]" aria-live="polite">

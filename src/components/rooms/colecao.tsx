@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import { ChevronLeft, ChevronRight, ScanLine } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Blueprint } from "@/components/motion/blueprint";
 import { Counter } from "@/components/motion/counter";
 import { Odometer } from "@/components/motion/odometer";
@@ -34,7 +34,7 @@ function PriceBlock({ car, size = "lg" }: { car: Car; size?: "lg" | "md" }) {
       </div>
       <p className="mt-3 max-w-[34ch] font-mono text-[10px] leading-relaxed tracking-[0.08em] text-text-muted">
         {colecaoCopy.priceDisclaimer}
-        <span className="block opacity-80">Ref.: {car.priceNote}.</span>
+        <span className="block">Ref.: {car.priceNote}.</span>
       </p>
     </div>
   );
@@ -137,7 +137,7 @@ export function Colecao() {
   const [blueprint, setBlueprint] = useState(false);
   const [hoverSlug, setHoverSlug] = useState<string | null>(null);
   const [wipeKey, setWipeKey] = useState(0);
-  const dir = useRef(1);
+  const [dir, setDir] = useState(1);
 
   const thumbX = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 });
   const thumbY = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 });
@@ -146,7 +146,7 @@ export function Colecao() {
     (slug: string, d?: number) => {
       if (slug === selectedCar) return;
       const ni = cars.findIndex((c) => c.slug === slug);
-      dir.current = d ?? (ni > idx ? 1 : -1);
+      setDir(d ?? (ni > idx ? 1 : -1));
       setSelectedCar(slug);
       setWipeKey((k) => k + 1);
     },
@@ -207,7 +207,7 @@ export function Colecao() {
                         on ? "border-accent text-text" : "border-line text-text-muted hover:text-text",
                       )}
                     >
-                      <span className="tabular-nums opacity-70">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                       <span className="whitespace-nowrap lg:whitespace-normal">{carName(c)}</span>
                     </button>
                   </li>
@@ -272,7 +272,7 @@ export function Colecao() {
                 <motion.div
                   key={car.slug}
                   className="absolute inset-0"
-                  initial={{ clipPath: dir.current > 0 ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)" }}
+                  initial={{ clipPath: dir > 0 ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)" }}
                   animate={{ clipPath: "inset(0 0% 0 0%)" }}
                   exit={{ opacity: 0, transition: { delay: reduced ? 0 : 0.85, duration: 0.01 } }}
                   transition={{ duration: reduced ? 0 : 0.85, ease: EASE }}
@@ -298,10 +298,10 @@ export function Colecao() {
                 className="pointer-events-none absolute inset-y-0 w-[18%] mix-blend-screen"
                 style={{
                   background: "linear-gradient(90deg, transparent, rgba(230,217,181,0.55), transparent)",
-                  [dir.current > 0 ? "right" : "left"]: 0,
+                  [dir > 0 ? "right" : "left"]: 0,
                 }}
-                initial={{ x: wipeKey ? (dir.current > 0 ? "0%" : "0%") : "0%", opacity: wipeKey ? 1 : 0 }}
-                animate={{ x: dir.current > 0 ? "-560%" : "560%", opacity: [1, 1, 0] }}
+                initial={{ x: wipeKey ? (dir > 0 ? "0%" : "0%") : "0%", opacity: wipeKey ? 1 : 0 }}
+                animate={{ x: dir > 0 ? "-560%" : "560%", opacity: [1, 1, 0] }}
                 transition={{ duration: 0.85, ease: EASE }}
               />
             ) : null}

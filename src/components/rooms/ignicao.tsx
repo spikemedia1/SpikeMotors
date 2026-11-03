@@ -49,14 +49,6 @@ export function Ignition({ onComplete, onSkip }: { onComplete: () => void; onSki
   const holdingRef = useRef(false);
   const completeTimer = useRef(0);
 
-  // Visual por rAF; a conclusão é por timer (não depende da taxa de quadros).
-  const tick = useCallback(() => {
-    const p = Math.min(1, (performance.now() - holdStart.current) / HOLD_MS);
-    progress.set(p);
-    rpm.set(p * 2200);
-    if (p < 1 && holdingRef.current) raf.current = requestAnimationFrame(tick);
-  }, [progress, rpm]);
-
   const startHold = useCallback(() => {
     if (doneRef.current || holdingRef.current) return;
     holdingRef.current = true;
@@ -64,13 +56,20 @@ export function Ignition({ onComplete, onSkip }: { onComplete: () => void; onSki
     progress.stop();
     rpm.stop();
     holdStart.current = performance.now() - progress.get() * HOLD_MS;
-    raf.current = requestAnimationFrame(tick);
+    // Visual por rAF; a conclusão é por timer (não depende da taxa de quadros).
+    const loop = () => {
+      const p = Math.min(1, (performance.now() - holdStart.current) / HOLD_MS);
+      progress.set(p);
+      rpm.set(p * 2200);
+      if (p < 1 && holdingRef.current) raf.current = requestAnimationFrame(loop);
+    };
+    raf.current = requestAnimationFrame(loop);
     completeTimer.current = window.setTimeout(() => {
       holdingRef.current = false;
       progress.set(1);
       void ignite();
     }, HOLD_MS * (1 - progress.get()));
-  }, [progress, rpm, tick, ignite]);
+  }, [progress, rpm, ignite]);
 
   const endHold = useCallback(() => {
     if (doneRef.current || !holdingRef.current) return;

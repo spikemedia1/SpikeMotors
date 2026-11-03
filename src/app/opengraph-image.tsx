@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
+import { cars } from "@/data/cars";
 import { site } from "@/data/config";
+import { formatDec } from "@/lib/format";
 import { loadOgFonts } from "@/lib/og-fonts";
 
 export const alt = "Spike Motors — Automóveis de exceção";
@@ -133,7 +135,7 @@ export default async function OpengraphImage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={gaugeSvg()} width={220} height={220} alt="" />
           <div style={{ display: "flex", fontFamily: "JetBrains", fontSize: 15, letterSpacing: "0.24em", color: "#8F999F", marginTop: 8 }}>
-            0–100 KM/H · 2,4s
+            0–100 KM/H · {formatDec(Math.min(...cars.map((c) => c.zeroToHundred)))}s
           </div>
         </div>
       </div>

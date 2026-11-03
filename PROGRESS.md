@@ -1,21 +1,18 @@
 # Spike Motors — Progresso
 
 ## Fases
-- [x] Fase 0 — Reconhecimento (29 imagens inspecionadas; mapeamento abaixo)
-- [x] Fase 1 — Fundação: Next 16.4.4 + Tailwind 4 + shadcn (base-nova) + motion + lucide; tokens, fontes, logo, ícones/OG via ImageResponse, robots/sitemap, Velaris/ShinyButton/Dock adaptados; preços pesquisados (verify).
-- [x] Fase 2 — Shell de abas (estado único, dock, trilho, teclado/roda/swipe/hash, obturador, cursor, foco, aria-live, noscript)
-- [x] Fase 3 — Ignição + Salão (hold 1,2s com timer, sweep, tremor, obturador; Velaris, Headlight Reveal, Split Reveal, parallax, ticker, citação)
-- [x] Fase 4 — Coleção (lista + miniatura flutuante, wipe de luz, nome por máscara, Blueprint, contadores, odômetro BRL, arrastar/setas/[ ], gaveta de ficha)
-- [x] Fase 5 — Spike Control (lib/sim.ts + 6 testes; 4 modos; conta-giros/velocímetro com spring; Launch Control com aborto <0,4s, teclado e "largar automaticamente"; comparação; G-force; telemetria em canvas; circuito; som Web Audio)
-- [x] Fase 6 — Ateliê (3 programas, 8 avulsos, configurador com total em odômetro, resumo → Concierge), Manifesto (Headlight Reveal, contadores, Chanel, linha do tempo), Concierge (formulário validado, máscara BR, consentimento, sucesso, rodapé)
-- [ ] Fase 7 — QA visual
+- [x] Fase 0 — Reconhecimento: 29 imagens inspecionadas uma a uma; mapeamento em `src/data/image-manifest.ts`.
+- [x] Fase 1 — Fundação: Next 16.4.4 + Tailwind 4 + shadcn (base-nova) + motion + lucide; tokens, fontes, logo, ícones/OG via ImageResponse, robots/sitemap; Velaris, ShinyButton e Dock adaptados; preços pesquisados (todos `verify`).
+- [x] Fase 2 — Shell de abas: estado único, dock, trilho, teclado/roda/swipe/hash, obturador, cursor, foco no título, `aria-live`, `<noscript>`.
+- [x] Fase 3 — Ignição + Salão: segurar 1,2 s (conclusão por timer), sweep do conta-giros, tremor, obturador; Velaris, Headlight Reveal, Split Reveal, parallax, ticker, citação.
+- [x] Fase 4 — Coleção: lista + miniatura flutuante, wipe de luz, nome por máscara, Blueprint, contadores, odômetro BRL, arrastar/setas/`[ ]`, gaveta de ficha.
+- [x] Fase 5 — Spike Control: `lib/sim.ts` + 6 testes; 4 modos; instrumentos com spring; Launch Control (aborto < 0,4 s, teclado, "largar automaticamente"); comparação; G-force; telemetria em canvas; circuito; som Web Audio.
+- [x] Fase 6 — Ateliê (3 programas, 8 avulsos, total vivo em odômetro, resumo → Concierge), Manifesto (Headlight Reveal, contadores, Chanel, linha do tempo), Concierge (validação, máscara BR, consentimento, sucesso, rodapé).
+- [x] Fase 7 — QA visual: 6 salas × 5 breakpoints com Playwright no build de produção, folhas de contato revisadas e corrigidas; reduced-motion; axe-core 0 violações; ESLint 0; build limpo. Lighthouse: NÃO MEDIDO (ver relatório).
 
 ## Camadas
-- [ ] Camada 1 · [ ] Camada 2 · [ ] Camada 3
+- [x] Camada 1 — obrigatória e publicável
+- [x] Camada 2 — assinatura
+- [x] Camada 3 — desejável (nada cortado)
 
-## Decisões da Fase 0
-- Só o Porsche 911 Turbo S da tabela 6.1 existe no pack. Coleção = carros do pack: 911 Turbo S, McLaren 720S, Ferrari 812 Superfast, Bentley Batur, Bentley Continental GT (4ª ger.), Rolls-Royce Spectre, Aston Martin DB12. Preços fora da tabela: `null` + `verify: true` até pesquisa.
-- Hero: coupé escuro low-key (`atmosfera/hero.jpg`, modelo não confirmado).
-- Descartadas: prints de sites (Dallara, Koenigsegg). Não usadas: 911 Carrera/Cabriolet, Continental 3ª ger., 765LT, Lexus LC, VW, renders genéricos, T.33.
-- Next 16 traz `cacheComponents: true`; ler `node_modules/next/dist/docs/` antes de codar (AGENTS.md).
-- Licença/origem das imagens do pack: desconhecida (bloqueia publicação).
+Relatório completo: `RELATORIO.md`.

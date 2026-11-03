@@ -48,7 +48,7 @@ export function Manifesto() {
                 <div key={s.label} className="flex flex-col-reverse border-t border-line pt-4">
                   <dt className="t-mono mt-3 text-[10px] text-text-muted">
                     {s.label}
-                    {DEMO_MODE && s.demo ? <span className="block text-[9px] opacity-70">· ilustrativo</span> : null}
+                    {DEMO_MODE && s.demo ? <span className="block text-[9px]">· ilustrativo</span> : null}
                   </dt>
                   <dd className="t-num text-[clamp(32px,3vw,46px)] leading-none text-text">
                     {s.prefix}
