@@ -2,7 +2,7 @@
 
 ## Fases
 - [x] Fase 0 — Reconhecimento (29 imagens inspecionadas; mapeamento abaixo)
-- [~] Fase 1 — Fundação: Next.js 16.4.4 + Tailwind 4 criado; imagens copiadas para `public/cars/`. FALTA: shadcn, motion, lucide, tokens, fontes, logo, ícones/OG, A1/A2/A3.
+- [x] Fase 1 — Fundação: Next 16.4.4 + Tailwind 4 + shadcn (base-nova) + motion + lucide; tokens, fontes, logo, ícones/OG via ImageResponse, robots/sitemap, Velaris/ShinyButton/Dock adaptados; preços pesquisados (verify).
 - [ ] Fase 2 — Shell de abas
 - [ ] Fase 3 — Ignição + Salão
 - [ ] Fase 4 — Coleção
