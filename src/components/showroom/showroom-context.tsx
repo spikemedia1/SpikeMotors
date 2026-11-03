@@ -37,6 +37,7 @@ export function useShowroom(): ShowroomState {
 }
 
 /** Contexto por sala: se está ativa e se deve montar widgets pesados. */
-export type RoomCtx = { active: boolean; mounted: boolean };
-export const RoomContext = createContext<RoomCtx>({ active: false, mounted: false });
+/** active: conteúdo revelado; current: é a sala atual (mesmo sob o obturador); mounted: ativa ou vizinha. */
+export type RoomCtx = { active: boolean; current: boolean; mounted: boolean };
+export const RoomContext = createContext<RoomCtx>({ active: false, current: false, mounted: false });
 export const useRoom = () => useContext(RoomContext);

@@ -24,7 +24,7 @@ export function RoomFrame({
       >
         <div
           className={cn(
-            "relative min-h-full px-[var(--gutter)] pt-[88px] pb-[112px] lg:pr-[var(--gutter)] lg:pl-[max(var(--gutter),210px)]",
+            "relative min-h-full px-[var(--gutter)] pt-[84px] pb-[128px] lg:pr-[var(--gutter)] lg:pl-[max(var(--gutter),210px)]",
             className,
           )}
         >

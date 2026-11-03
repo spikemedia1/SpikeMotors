@@ -4,6 +4,7 @@ import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } fr
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/logo";
 import { ignitionCopy } from "@/data/content";
+import { arcPath as arcAt, polar as polarAt } from "@/lib/geom";
 
 const HOLD_MS = 1200;
 const MAX_RPM = 8000;
@@ -12,13 +13,8 @@ const R_TACH = 150;
 const ARC_START = 150; // graus (0 = leste, sentido horário)
 const ARC_SWEEP = 240;
 
-const rad = (deg: number) => (deg * Math.PI) / 180;
-const polar = (r: number, deg: number) => [180 + Math.cos(rad(deg)) * r, 180 + Math.sin(rad(deg)) * r] as const;
-const arcPath = (r: number, from: number, to: number) => {
-  const [x0, y0] = polar(r, from);
-  const [x1, y1] = polar(r, to);
-  return `M ${x0} ${y0} A ${r} ${r} 0 ${to - from > 180 ? 1 : 0} 1 ${x1} ${y1}`;
-};
+const polar = (r: number, deg: number) => polarAt(180, 180, r, deg);
+const arcPath = (r: number, from: number, to: number) => arcAt(180, 180, r, from, to);
 
 /** Sala 00 · Ignição: segurar para ligar, sweep do conta-giros, tremor e saída pelo obturador. */
 export function Ignition({ onComplete, onSkip }: { onComplete: () => void; onSkip: () => void }) {
@@ -33,51 +29,66 @@ export function Ignition({ onComplete, onSkip }: { onComplete: () => void; onSki
 
   const ringOffset = useTransform(progress, (p) => 1 - p);
   const needleAngle = useTransform(rpm, (v) => ARC_START + (Math.min(v, MAX_RPM) / MAX_RPM) * ARC_SWEEP);
-  const needleTransform = useTransform(needleAngle, (a) => `rotate(${a} 180 180)`);
   const rpmLabel = useTransform(rpm, (v) => Math.round(v / 10) * 10);
   const [rpmText, setRpmText] = useState("0");
   useMotionValueEvent(rpmLabel, "change", (v) => setRpmText(v.toLocaleString("pt-BR")));
 
-  const ignite = useCallback(async () => {
+  const ignite = useCallback(() => {
     if (doneRef.current) return;
     doneRef.current = true;
     setHolding(false);
     setStarted(true);
     setShake(true);
     window.setTimeout(() => setShake(false), 120);
-    await animate(rpm, MAX_RPM * 0.96, { duration: 0.42, ease: [0.3, 0, 0.2, 1] });
-    await animate(rpm, IDLE_RPM, { type: "spring", stiffness: 70, damping: 11 });
-    window.setTimeout(onComplete, 260);
+    // Sweep de partida: ponteiro ao máximo e de volta a 900 rpm. Cronometrado por timers.
+    animate(rpm, MAX_RPM * 0.96, { duration: 0.42, ease: [0.3, 0, 0.2, 1] });
+    window.setTimeout(() => animate(rpm, IDLE_RPM, { type: "spring", stiffness: 70, damping: 11 }), 440);
+    window.setTimeout(onComplete, 1250);
   }, [onComplete, rpm]);
 
+  const holdingRef = useRef(false);
+  const completeTimer = useRef(0);
+
+  // Visual por rAF; a conclusão é por timer (não depende da taxa de quadros).
   const tick = useCallback(() => {
     const p = Math.min(1, (performance.now() - holdStart.current) / HOLD_MS);
     progress.set(p);
     rpm.set(p * 2200);
-    if (p >= 1) {
-      void ignite();
-      return;
-    }
-    raf.current = requestAnimationFrame(tick);
-  }, [ignite, progress, rpm]);
+    if (p < 1 && holdingRef.current) raf.current = requestAnimationFrame(tick);
+  }, [progress, rpm]);
 
   const startHold = useCallback(() => {
-    if (doneRef.current || holding) return;
+    if (doneRef.current || holdingRef.current) return;
+    holdingRef.current = true;
     setHolding(true);
     progress.stop();
+    rpm.stop();
     holdStart.current = performance.now() - progress.get() * HOLD_MS;
     raf.current = requestAnimationFrame(tick);
-  }, [holding, progress, tick]);
+    completeTimer.current = window.setTimeout(() => {
+      holdingRef.current = false;
+      progress.set(1);
+      void ignite();
+    }, HOLD_MS * (1 - progress.get()));
+  }, [progress, rpm, tick, ignite]);
 
   const endHold = useCallback(() => {
-    if (doneRef.current) return;
+    if (doneRef.current || !holdingRef.current) return;
+    holdingRef.current = false;
     setHolding(false);
+    window.clearTimeout(completeTimer.current);
     cancelAnimationFrame(raf.current);
     animate(progress, 0, { type: "spring", stiffness: 160, damping: 20 });
     animate(rpm, 0, { type: "spring", stiffness: 120, damping: 18 });
   }, [progress, rpm]);
 
-  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(raf.current);
+      window.clearTimeout(completeTimer.current);
+    },
+    [],
+  );
 
   // Espaço segura em qualquer ponto da tela (além do botão em foco).
   useEffect(() => {
@@ -148,15 +159,9 @@ export function Ignition({ onComplete, onSkip }: { onComplete: () => void; onSki
               </g>
             );
           })}
-          <motion.line
-            x1={180}
-            y1={180}
-            x2={180 + R_TACH - 18}
-            y2={180}
-            stroke="var(--accent-soft)"
-            strokeWidth={1.5}
-            transform={needleTransform}
-          />
+          <motion.g style={{ rotate: needleAngle, transformOrigin: "180px 180px", transformBox: "view-box" }}>
+            <line x1={180} y1={180} x2={180 + R_TACH - 18} y2={180} stroke="var(--accent-soft)" strokeWidth={1.5} />
+          </motion.g>
         </svg>
 
         {/* Botão ENGINE START STOP */}

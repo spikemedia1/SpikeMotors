@@ -293,7 +293,7 @@ export function Showroom({ content }: { content: Record<RoomId, React.ReactNode>
           const near = Math.abs(i - activeIdx) <= 1 || r.id === pendingRoom;
           const revealActive = isActive && ignited && !shutterClosed;
           return (
-            <RoomContext.Provider key={r.id} value={{ active: revealActive, mounted: near && ignited }}>
+            <RoomContext.Provider key={r.id} value={{ active: revealActive, current: isActive, mounted: near }}>
               <motion.section
                 data-room={r.id}
                 aria-labelledby={`${r.id}-title`}

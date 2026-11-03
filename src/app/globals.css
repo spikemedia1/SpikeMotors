@@ -224,9 +224,9 @@ body {
 .vignette {
   position: fixed;
   inset: 0;
-  z-index: 89;
+  z-index: 5;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.5) 100%);
 }
 
 /* Ponto "ao vivo" */

@@ -34,7 +34,7 @@ export function SplitReveal({
   return (
     <Tag id={id} tabIndex={-1} data-room-title className={cn("t-display outline-none", className)}>
       {lines.map((line, i) => (
-        <span key={i} className="block overflow-hidden pb-[0.08em]">
+        <span key={i} className="-mb-[0.1em] block overflow-hidden pb-[0.16em]">
           <motion.span
             className={cn("block", italic.includes(i) && "italic text-accent-soft")}
             initial={false}
