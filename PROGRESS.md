@@ -6,7 +6,7 @@
 - [x] Fase 2 — Shell de abas (estado único, dock, trilho, teclado/roda/swipe/hash, obturador, cursor, foco, aria-live, noscript)
 - [x] Fase 3 — Ignição + Salão (hold 1,2s com timer, sweep, tremor, obturador; Velaris, Headlight Reveal, Split Reveal, parallax, ticker, citação)
 - [x] Fase 4 — Coleção (lista + miniatura flutuante, wipe de luz, nome por máscara, Blueprint, contadores, odômetro BRL, arrastar/setas/[ ], gaveta de ficha)
-- [ ] Fase 5 — Spike Control
+- [x] Fase 5 — Spike Control (lib/sim.ts + 6 testes; 4 modos; conta-giros/velocímetro com spring; Launch Control com aborto <0,4s, teclado e "largar automaticamente"; comparação; G-force; telemetria em canvas; circuito; som Web Audio)
 - [ ] Fase 6 — Ateliê + Manifesto + Concierge
 - [ ] Fase 7 — QA visual
 

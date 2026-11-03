@@ -170,9 +170,6 @@ body {
 }
 
 /* Cantoneiras de visor de câmera */
-.corners {
-  position: relative;
-}
 .corners::before,
 .corners::after,
 .corners > .corners-b::before,
@@ -352,6 +349,20 @@ html.has-custom-cursor main :is(input, textarea, select, [contenteditable]) {
 @keyframes panel-spin {
   to {
     --panel-angle: 360deg;
+  }
+}
+
+/* Modo Spike: filetes pulsando (só opacidade) */
+.spike-pulse {
+  animation: spike-pulse 2.4s ease-in-out infinite;
+}
+@keyframes spike-pulse {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.9;
   }
 }
 
