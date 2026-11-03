@@ -2,7 +2,7 @@ import { chromium } from "playwright";
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
 await p.addInitScript(() => sessionStorage.setItem("spike-ignited", "1"));
-await p.goto("http://localhost:3100/#colecao", { waitUntil: "networkidle" });
+await p.goto(`${process.argv[2] ?? "http://localhost:3000"}/#colecao`, { waitUntil: "networkidle" });
 await p.waitForTimeout(2500);
 await p.click("text=MCLAREN 720S");
 await p.waitForTimeout(400);

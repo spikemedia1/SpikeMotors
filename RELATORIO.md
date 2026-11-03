@@ -24,16 +24,19 @@ Projeto em `spike-motors/` (Next.js 16.4.4, React 19.3, Tailwind 4, motion 14, l
 | Reduced motion | Capturas com `prefers-reduced-motion: reduce`: conteúdo imediato, sem shader animado, sem Ignição, sem cursor customizado. |
 | `<head>` | `link rel=icon` (512 px) e `apple-touch-icon` (180 px), `og:*` (1200×630, `pt_BR`), `twitter:card=summary_large_image`, `theme-color #080808`; `/icon`, `/apple-icon`, `/opengraph-image`, `/twitter-image`, `/robots.txt`, `/sitemap.xml` respondem 200. Imagem OG e ícone abertos e conferidos. |
 | Sem JavaScript | Com JS desligado, o HTML traz o conteúdo essencial de todas as salas empilhadas (título, preços, citações, números). |
-| Web Vitals (aproximação) | Playwright, 390×844, CPU 4× mais lenta, localhost: FCP 312 ms · LCP 636 ms · CLS 0,000. Não é nota Lighthouse. |
+| **Lighthouse 12.8** (alvo: Perf ≥ 85 mobile, A11y ≥ 95) | Build de produção em localhost, `node scripts/lh.mjs` (API Node ligada ao Chromium do Playwright, throttling simulado padrão). **Mobile: Performance 86–87** (6 rodadas: 87, 87, 87, 87, 86, 86), Acessibilidade 100, Boas práticas 100, SEO 100. **Desktop: 100 / 100 / 100 / 100.** Mobile: FCP 1,1 s · LCP 3,8 s (simulado) · TBT 180–200 ms · CLS 0. |
+| LCP real × simulado | O LCP de 3,8 s é do modelo do Lighthouse, que soma todo o JavaScript executado antes da pintura observada. Medido de verdade (Playwright, Moto G4, CPU 4×, rede lenta), o LCP acontece **no primeiro quadro, junto com o FCP (≈ 0,8 s)**. |
+| Web Vitals (Playwright) | `scripts/audit.mjs`, 390×844, CPU 4×, localhost: FCP 192 ms · LCP 192 ms · CLS 0,000. |
+| WebKit (motor do Safari) | `scripts/cross-browser.mjs`, Playwright WebKit 27.2, 1440×900 e 390×844 (toque emulado): Ignição liga, as 6 salas abrem por tecla com o hash certo, **nenhum erro de JS**; `content-visibility` e `:has()` suportados. Capturas revisadas em `qa/cross/`. |
 | Pasta original | `imagens/` intacta (41 arquivos, nenhum modificado depois do início); nada escrito fora de `spike-motors/`. |
 
 ### Não verificado
 | Item | Motivo |
 |---|---|
-| **Nota Lighthouse** (alvo: Perf ≥ 85 mobile, A11y ≥ 95) | **Não medido.** O Chrome completo não pôde ser iniciado neste ambiente (`spawn UNKNOWN`) e o headless-shell do Playwright encerra a aba no protocolo do Lighthouse. Rodar `npx lighthouse` numa máquina com Chrome. |
+| Lighthouse em produção | As notas acima são de localhost. Repetir na URL publicada (HTTPS, CDN, servidor real). |
 | Som (Web Audio) | O código roda sem erros, mas não foi possível ouvir o resultado. |
 | Swipe em toque real e arrastar com inércia na Coleção | Implementados; não exercitados nos testes automatizados (apenas roda, teclado e cliques). |
-| Safari, Firefox e aparelhos reais | Só Chromium foi testado. |
+| Safari real, Firefox e aparelhos reais | Testados Chromium e o WebKit do Playwright no Windows, que é o motor do Safari mas não o Safari de iOS/macOS. O Firefox do Playwright não abriu nesta máquina (`spawn UNKNOWN`, também fora do sandbox; o mesmo bloqueio impede o `chrome-launcher`). |
 | Leitor de tela real | Só verificação automática (axe) e estrutura de foco. |
 | Fallback CSS do Velaris sem WebGL | Implementado (checagem de compilação e link); não forçado em teste. |
 | Sem JS: imagem do hero | Sem JavaScript o carro do hero fica apagado (a revelação é por script). O texto aparece. |
@@ -66,7 +69,7 @@ Projeto em `spike-motors/` (Next.js 16.4.4, React 19.3, Tailwind 4, motion 14, l
 - [x] Git local com um commit por fase, sem remote; `PROGRESS.md` atualizado.
 - [x] Nenhum dado de negócio fixo em componente; tudo em `src/data/`.
 - [x] Relatório entregue (este arquivo).
-- [ ] Nota Lighthouse: **não medida** (ver seção 1).
+- [x] Lighthouse mobile: Performance 86–87 (alvo ≥ 85), Acessibilidade 100 (alvo ≥ 95); medido em localhost (ver seção 1).
 
 ---
 
@@ -155,7 +158,8 @@ Projeto em `spike-motors/` (Next.js 16.4.4, React 19.3, Tailwind 4, motion 14, l
 8. **Privacidade:** publicar a política (hoje há um placeholder no consentimento), definir a base legal LGPD, a retenção de dados e o aviso de cookies, se houver analytics no futuro.
 9. **Configuração:** definir `NEXT_PUBLIC_SITE_URL` (canonical, OG, sitemap, robots).
 10. **SEO:** a página é única com salas por hash, então a indexação por sala é limitada. Se SEO por sala importar, criar rotas reais.
-11. **Lighthouse:** medir em máquina com Chrome antes de publicar.
+11. **Lighthouse:** repetir na URL publicada; a nota mobile medida (86–87) tem pouca folga sobre o alvo de 85.
+12. **Navegadores:** testar no Safari de iPhone e Mac, no Firefox e em um Android real.
 
 ---
 
@@ -163,7 +167,7 @@ Projeto em `spike-motors/` (Next.js 16.4.4, React 19.3, Tailwind 4, motion 14, l
 
 **Dependências:** `next`, `react`, `react-dom`, `motion`, `lucide-react`, `clsx`, `tailwind-merge`, `class-variance-authority`, `@base-ui/react`, `shadcn`, `tw-animate-css` e `@fontsource/{epilogue, cormorant-garamond, jetbrains-mono}` (fontes da imagem OG).
 
-**Dev:** `tailwindcss` 4, `@tailwindcss/turbopack`, `typescript`, `eslint`, `eslint-config-next`, `playwright`, `@axe-core/playwright`.
+**Dev:** `tailwindcss` 4, `@tailwindcss/turbopack`, `typescript`, `eslint`, `eslint-config-next`, `playwright`, `@axe-core/playwright`, `lighthouse` 12.
 
 ```bash
 cd spike-motors
@@ -174,4 +178,16 @@ npm test
 npm run lint
 npx playwright install chromium && node scripts/shots.mjs http://localhost:3000
 node scripts/audit.mjs http://localhost:3000
+node scripts/lh.mjs http://localhost:3000/ --runs=3          # Lighthouse mobile (--desktop para desktop)
+npx playwright install webkit && node scripts/cross-browser.mjs http://localhost:3000
 ```
+
+---
+
+## 8. Rodada pós-entrega (performance, rótulos e WebKit)
+
+- **Ignição primeiro no DOM.** Ela vinha depois de todas as salas, e o navegador pintava o cabeçalho antes de receber o resto do HTML; o texto "Segure para ligar" (o elemento de LCP) só aparecia ~300 ms depois. Agora pinta no primeiro quadro. Visualmente nada muda: ela é `fixed` com z-index próprio.
+- **Salas fora de cena dormem** (`content-visibility: hidden` em `.room[data-dormant]`, e na pilha inteira enquanto a Ignição cobre a tela). Elas continuavam calculando estilo e as animações infinitas do ShinyButton mesmo invisíveis. Estilo e layout no carregamento caíram de 1.984 ms para 310 ms (CPU 4×). O fallback sem JS desfaz a regra.
+- **Nome acessível contém o rótulo visível** (WCAG 2.5.3) no logo, no ícone Spike Control com o selo LIVE e no botão ENGINE START · STOP.
+- **Selects iguais em todos os motores:** `appearance: none` com chevron na cor do tema (o WebKit desenhava uma caixa cinza nativa).
+- Scripts: `lh.mjs` refeito (o anterior não rodava aqui), `cross-browser.mjs` novo, `contact-sheet.mjs` aceita prefixo, `interact-*.mjs` aceitam a URL base.

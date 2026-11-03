@@ -283,6 +283,9 @@ export function Showroom({ content }: { content: Record<RoomId, React.ReactNode>
 
   return (
     <ShowroomContext.Provider value={state}>
+      {/* Primeiro no DOM: é o que a primeira pintura mostra, sem esperar o HTML das salas. */}
+      {!ignited ? <Ignition onComplete={finishIgnition} onSkip={skipIgnition} /> : null}
+
       <SiteHeader />
       <SideRail />
 
@@ -299,6 +302,7 @@ export function Showroom({ content }: { content: Record<RoomId, React.ReactNode>
                 aria-labelledby={`${r.id}-title`}
                 aria-hidden={!isActive}
                 inert={!isActive}
+                data-dormant={isActive || isLeaving ? undefined : ""}
                 className={cn("room absolute inset-0 overflow-hidden", isActive ? "z-10" : "z-0")}
                 style={{ visibility: isActive || isLeaving ? "visible" : "hidden" }}
                 initial={false}
@@ -317,8 +321,6 @@ export function Showroom({ content }: { content: Record<RoomId, React.ReactNode>
       </main>
 
       <SiteDock />
-
-      {!ignited ? <Ignition onComplete={finishIgnition} onSkip={skipIgnition} /> : null}
 
       <Shutter phase={phase} num={shutterLabel.num} name={shutterLabel.name} />
       <Cursor />

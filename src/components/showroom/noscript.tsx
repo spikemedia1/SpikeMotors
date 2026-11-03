@@ -6,8 +6,8 @@ export function NoScriptFallback() {
   const css = `
     html, body { overflow: auto !important; height: auto !important; }
     .ignition-root { display: none !important; }
-    .room-stack { position: static !important; }
-    .room { position: relative !important; visibility: visible !important; opacity: 1 !important; transform: none !important; min-height: 100dvh; }
+    .room-stack { position: static !important; content-visibility: visible !important; }
+    .room { position: relative !important; visibility: visible !important; content-visibility: visible !important; opacity: 1 !important; transform: none !important; min-height: 100dvh; }
     .room [style*="opacity"] { opacity: 1 !important; transform: none !important; }
   `;
   return (

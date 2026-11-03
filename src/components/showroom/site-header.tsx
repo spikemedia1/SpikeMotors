@@ -12,10 +12,10 @@ export function SiteHeader() {
         type="button"
         onClick={() => go("salao")}
         className="pointer-events-auto -m-2 p-2"
-        aria-label="Spike Motors, voltar ao Salão"
         data-cursor="SALÃO"
       >
         <Logo size={17} />
+        <span className="sr-only">, voltar ao Salão</span>
       </button>
       <div className="pointer-events-auto flex items-center gap-6">
         <span className="t-mono hidden text-[10px] text-text-muted md:inline">{site.headerLabel}</span>

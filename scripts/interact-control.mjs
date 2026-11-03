@@ -5,7 +5,7 @@ const errs = [];
 p.on("console", (m) => m.type() === "error" && errs.push(m.text().slice(0, 200)));
 p.on("pageerror", (e) => errs.push(e.message));
 await p.addInitScript(() => sessionStorage.setItem("spike-ignited", "1"));
-await p.goto("http://localhost:3100/#spike-control", { waitUntil: "networkidle" });
+await p.goto(`${process.argv[2] ?? "http://localhost:3000"}/#spike-control`, { waitUntil: "networkidle" });
 await p.waitForTimeout(2500);
 await p.screenshot({ path: "qa/shots/control-idle.png" });
 // aborto: solta cedo

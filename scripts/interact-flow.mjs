@@ -5,7 +5,7 @@ const errs = [];
 p.on("console", (m) => ["error", "warning"].includes(m.type()) && errs.push(m.text().slice(0, 200)));
 p.on("pageerror", (e) => errs.push(e.message));
 await p.addInitScript(() => sessionStorage.setItem("spike-ignited", "1"));
-await p.goto("http://localhost:3100/#colecao", { waitUntil: "networkidle" });
+await p.goto(`${process.argv[2] ?? "http://localhost:3000"}/#colecao`, { waitUntil: "networkidle" });
 await p.waitForTimeout(2000);
 await p.click("text=FERRARI 812 SUPERFAST");
 await p.waitForTimeout(1200);

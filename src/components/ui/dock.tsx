@@ -49,7 +49,7 @@ export function DockIcon({
       <button
         type="button"
         onClick={onClick}
-        aria-label={label}
+        aria-label={badge ? `${label} ${badge}` : label}
         aria-current={active ? "page" : undefined}
         aria-pressed={pressed}
         data-cursor={cursor}
@@ -68,14 +68,6 @@ export function DockIcon({
           )}
           strokeWidth={1.8}
         />
-        {badge ? (
-          <span
-            aria-hidden
-            className="absolute -top-1.5 -right-2 bg-signal px-1 py-px font-mono text-[8px] leading-none font-medium tracking-[0.12em] text-bg"
-          >
-            {badge}
-          </span>
-        ) : null}
         <span
           aria-hidden
           className={cn(
@@ -90,6 +82,15 @@ export function DockIcon({
         >
           {label}
         </span>
+        {/* Depois do tooltip: o texto visível sai na mesma ordem do nome acessível. */}
+        {badge ? (
+          <span
+            aria-hidden
+            className="absolute -top-1.5 -right-2 bg-signal px-1 py-px font-mono text-[8px] leading-none font-medium tracking-[0.12em] text-bg"
+          >
+            {badge}
+          </span>
+        ) : null}
       </button>
     </li>
   );

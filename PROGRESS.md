@@ -8,7 +8,8 @@
 - [x] Fase 4 — Coleção: lista + miniatura flutuante, wipe de luz, nome por máscara, Blueprint, contadores, odômetro BRL, arrastar/setas/`[ ]`, gaveta de ficha.
 - [x] Fase 5 — Spike Control: `lib/sim.ts` + 6 testes; 4 modos; instrumentos com spring; Launch Control (aborto < 0,4 s, teclado, "largar automaticamente"); comparação; G-force; telemetria em canvas; circuito; som Web Audio.
 - [x] Fase 6 — Ateliê (3 programas, 8 avulsos, total vivo em odômetro, resumo → Concierge), Manifesto (Headlight Reveal, contadores, Chanel, linha do tempo), Concierge (validação, máscara BR, consentimento, sucesso, rodapé).
-- [x] Fase 7 — QA visual: 6 salas × 5 breakpoints com Playwright no build de produção, folhas de contato revisadas e corrigidas; reduced-motion; axe-core 0 violações; ESLint 0; build limpo. Lighthouse: NÃO MEDIDO (ver relatório).
+- [x] Fase 7 — QA visual: 6 salas × 5 breakpoints com Playwright no build de produção, folhas de contato revisadas e corrigidas; reduced-motion; axe-core 0 violações; ESLint 0; build limpo.
+- [x] Pós-entrega — Lighthouse medido (mobile 86–87, desktop 100; A11y/BP/SEO 100); Ignição primeiro no DOM; salas fora de cena com `content-visibility`; rótulos WCAG 2.5.3; selects no WebKit; teste em WebKit (Firefox não abre nesta máquina).
 
 ## Camadas
 - [x] Camada 1 — obrigatória e publicável

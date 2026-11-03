@@ -19,6 +19,9 @@ npx playwright install chromium
 node scripts/shots.mjs http://localhost:3000            # 6 salas × 5 breakpoints em qa/shots
 node scripts/contact-sheet.mjs qa/shots 1440x900         # folha de contato
 node scripts/audit.mjs http://localhost:3000             # Web Vitals mobile + axe-core
+node scripts/lh.mjs http://localhost:3000/ --runs=3      # Lighthouse mobile (--desktop para desktop)
+npx playwright install webkit
+node scripts/cross-browser.mjs http://localhost:3000     # WebKit (e Firefox, se abrir) em qa/cross
 ```
 
 ## Onde ficam os dados

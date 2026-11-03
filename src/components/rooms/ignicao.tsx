@@ -167,7 +167,6 @@ export function Ignition({ onComplete, onSkip }: { onComplete: () => void; onSki
         <div className="absolute inset-0 flex items-center justify-center">
           <button
             type="button"
-            aria-label="Segure para ligar o motor"
             data-cursor="SEGURE"
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
@@ -196,6 +195,7 @@ export function Ignition({ onComplete, onSkip }: { onComplete: () => void; onSki
               <span className="live-dot mb-1" aria-hidden style={{ animationDuration: holding ? "0.4s" : "2.4s" }} />
               <span>ENGINE</span>
               <span className="text-text-muted">START · STOP</span>
+              <span className="sr-only">, segure para ligar o motor</span>
             </span>
           </button>
         </div>
