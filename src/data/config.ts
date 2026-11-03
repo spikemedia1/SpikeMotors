@@ -1,6 +1,9 @@
 /** Liga a sinalização visível de conteúdo ilustrativo. Desligar não exige tocar em componentes. */
 export const DEMO_MODE = true;
 
+/** Prévia privada: fora dos buscadores até definir NEXT_PUBLIC_ALLOW_INDEXING=1 no ambiente de produção. */
+export const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "1";
+
 export const demoNotice = "Conteúdo e valores ilustrativos nesta versão de demonstração.";
 
 export const site = {

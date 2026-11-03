@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Epilogue, Inter, JetBrains_Mono } from "next/font/google";
-import { site } from "@/data/config";
+import { allowIndexing, site } from "@/data/config";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -53,6 +53,7 @@ export const metadata: Metadata = {
     description: site.description,
   },
   alternates: { canonical: "/" },
+  robots: allowIndexing ? undefined : { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
