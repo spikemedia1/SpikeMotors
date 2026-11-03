@@ -21,6 +21,11 @@ export function RoomFrame({
       <div
         data-room-scroll={scroll ? "" : undefined}
         className={cn("absolute inset-0 overscroll-contain", scroll ? "overflow-y-auto" : "overflow-hidden")}
+        style={{
+          // o conteúdo some sob o header (que não tem fundo) ao rolar
+          maskImage: "linear-gradient(180deg, transparent 0, #000 76px)",
+          WebkitMaskImage: "linear-gradient(180deg, transparent 0, #000 76px)",
+        }}
       >
         <div
           className={cn(

@@ -16,6 +16,7 @@ export function HeadlightReveal({
   alt,
   sizes,
   priority = false,
+  eager = false,
   trigger,
   className,
   imgClassName,
@@ -27,6 +28,8 @@ export function HeadlightReveal({
   alt: string;
   sizes: string;
   priority?: boolean;
+  /** Carrega sem lazy-load (imagem que pode ser LCP ao abrir a sala direto pelo hash). */
+  eager?: boolean;
   /** Dispara a revelação (a primeira vez que vira true). */
   trigger: boolean;
   className?: string;
@@ -75,6 +78,7 @@ export function HeadlightReveal({
         fill
         sizes={sizes}
         priority={priority}
+        loading={priority ? undefined : eager ? "eager" : undefined}
         className={cn("object-cover", imgClassName)}
         style={{ filter: "brightness(0.12) saturate(0.6)" }}
       />
@@ -90,7 +94,8 @@ export function HeadlightReveal({
               }
         }
       >
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={cn("object-cover", imgClassName)} />
+        <Image src={src} alt={alt} fill sizes={sizes} priority={priority}
+        loading={priority ? undefined : eager ? "eager" : undefined} className={cn("object-cover", imgClassName)} />
       </div>
       {!done ? <div ref={bandRef} aria-hidden className="pointer-events-none absolute inset-0 mix-blend-screen" /> : null}
       {specular && done && !reduced ? (

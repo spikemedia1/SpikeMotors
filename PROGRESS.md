@@ -7,7 +7,7 @@
 - [x] Fase 3 — Ignição + Salão (hold 1,2s com timer, sweep, tremor, obturador; Velaris, Headlight Reveal, Split Reveal, parallax, ticker, citação)
 - [x] Fase 4 — Coleção (lista + miniatura flutuante, wipe de luz, nome por máscara, Blueprint, contadores, odômetro BRL, arrastar/setas/[ ], gaveta de ficha)
 - [x] Fase 5 — Spike Control (lib/sim.ts + 6 testes; 4 modos; conta-giros/velocímetro com spring; Launch Control com aborto <0,4s, teclado e "largar automaticamente"; comparação; G-force; telemetria em canvas; circuito; som Web Audio)
-- [ ] Fase 6 — Ateliê + Manifesto + Concierge
+- [x] Fase 6 — Ateliê (3 programas, 8 avulsos, configurador com total em odômetro, resumo → Concierge), Manifesto (Headlight Reveal, contadores, Chanel, linha do tempo), Concierge (formulário validado, máscara BR, consentimento, sucesso, rodapé)
 - [ ] Fase 7 — QA visual
 
 ## Camadas
