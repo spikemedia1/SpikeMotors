@@ -5,7 +5,7 @@
 - [x] Fase 1 — Fundação: Next 16.4.4 + Tailwind 4 + shadcn (base-nova) + motion + lucide; tokens, fontes, logo, ícones/OG via ImageResponse, robots/sitemap, Velaris/ShinyButton/Dock adaptados; preços pesquisados (verify).
 - [x] Fase 2 — Shell de abas (estado único, dock, trilho, teclado/roda/swipe/hash, obturador, cursor, foco, aria-live, noscript)
 - [x] Fase 3 — Ignição + Salão (hold 1,2s com timer, sweep, tremor, obturador; Velaris, Headlight Reveal, Split Reveal, parallax, ticker, citação)
-- [ ] Fase 4 — Coleção
+- [x] Fase 4 — Coleção (lista + miniatura flutuante, wipe de luz, nome por máscara, Blueprint, contadores, odômetro BRL, arrastar/setas/[ ], gaveta de ficha)
 - [ ] Fase 5 — Spike Control
 - [ ] Fase 6 — Ateliê + Manifesto + Concierge
 - [ ] Fase 7 — QA visual
